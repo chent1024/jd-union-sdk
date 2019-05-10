@@ -53,6 +53,7 @@ class Link extends JdGateWay
         if (!isset($params['unionId'])) {
             $params['unionId'] = $this->unionId;
         }
+
         if (!isset($params['positionId'])) {
             $params['positionId'] = $this->positionId;
         }
@@ -62,8 +63,43 @@ class Link extends JdGateWay
         if (!empty($conponUrl)) {
             $params['couponUrl'] = $conponUrl;
         }
-        return $this->send('getByUnionidPromotion', $params);
+
+        $reqParams = [
+            'promotionCodeReq' => $params,
+        ];
+        return $this->send('jd.union.open.promotion.byunionid.get', $reqParams);
 
     }
 
+    /**
+     * @api 通过subUnionId获取推广链接【申请】
+     * @line https://union.jd.com/openplatform/api/634
+     * @param $url
+     * @param string $conponUrl
+     * @param array $params 传入配置参数
+     * @return bool|string
+     * @throws \Exception
+     */
+    public function bySubUnionId($url, $conponUrl = '', $params = [])
+    {
+        if (!isset($params['unionId'])) {
+            $params['unionId'] = $this->unionId;
+        }
+
+        if (!isset($params['positionId'])) {
+            $params['positionId'] = $this->positionId;
+        }
+
+        $params['materialId'] = $url;
+
+        if (!empty($conponUrl)) {
+            $params['couponUrl'] = $conponUrl;
+        }
+
+        $reqParams = [
+            'promotionCodeReq' => $params,
+        ];
+        return $this->send('jd.union.open.promotion.bysubunionid.get', $reqParams);
+
+    }
 }
